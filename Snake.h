@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Defines.h"
 #include "Bloc.h"
+#include <iostream>
 
 class Snake : public sf::Drawable, sf::Transformable
 {
@@ -10,28 +11,39 @@ private:
     static int snake_count;
     Bloc *head;
     Bloc *tail;
-    Direction dir;
+    int dir;
     int buried_timer;
     float growth;
     int length;
-    sf::Texture *texture;
+    sf::Texture *tileset;
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         sf::VertexArray vertices(sf::Quads, length*4);
-        Bloc *current = head;
-        for (int b=0; current != NULL; b++)
+        Bloc *current = tail;
+        for (int b = 0; current != NULL; b++)
         {
+            current->print_bloc();
             current->blit_quad(vertices, b*4);
-            current = current->next;
+            current = current->prev;
         }
+        /*for (int i = 0; i < length; i++)
+        {
+            std::cout << "quad " << i << ":" << std::endl;
+            for (int j = 0; j < 4; j++)
+            {
+                std::cout << print_vertex(vertices[i * 4 + j]);
+            }
+            std::cout << std::endl;
+        }*/
         states.transform *= getTransform();
-        states.texture = texture;
+        states.texture = tileset;
         target.draw(vertices, states);
     }
 
 public:
-    Snake(sf::Vector2i, Direction); //param: Initial pos and dir
+    Snake(sf::Vector2f, Direction, sf::Texture*, sf::Color); //param: Initial pos, dir, color and tileset
+    void grow(int); //makes the snake grow by that size (or shrink if param is negative)
     void step(int); //param: Commands (bit field)
 };
 

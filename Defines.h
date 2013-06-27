@@ -23,6 +23,40 @@ enum Direction
     d_left
 };
 
-#define D_BLOCSIZE 21
+inline sf::Vector2f int_to_dir(int i)
+{
+    switch(i)
+    {
+    case d_up:
+        return sf::Vector2f(0, -1);
+    case d_right:
+        return sf::Vector2f(1, 0);
+    case d_down:
+        return sf::Vector2f(0, 1);
+    case d_left:
+        return sf::Vector2f(-1, 0);
+    }
+}
+
+inline sf::Vector2f int_to_corner(int i)
+{
+    switch(i)
+    {
+    case 0:
+        return sf::Vector2f(0, 0);
+    case 1:
+        return sf::Vector2f(1, 0);
+    case 2:
+        return sf::Vector2f(1, 1);
+    case 3:
+        return sf::Vector2f(0, 1);
+    }
+}
+
+#define D_BLOCSIZE 25
+#define D_MIN_SNAKE_LENGTH 3
+#define D_BURIED_TIME 2
+
+#define print_vertex(v) "[" << v.position.x << "," << v.position.y << "]"
 
 #endif // DEFINES_H

@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1372269148 source:c:\users\teraka\programmes\snake\main.cpp
+1372350035 source:c:\users\teraka\programmes\snake\main.cpp
 	<iostream>
 	<SFML/Graphics.hpp>
+	"Snake.h"
 
 1365233432 c:\program files (x86)\codeblocks\sfml-2.0\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -337,21 +338,23 @@
 	<string>
 	<vector>
 
-1372269566 source:c:\users\teraka\programmes\snake\bloc.cpp
+1372349711 source:c:\users\teraka\programmes\snake\bloc.cpp
 	"Bloc.h"
 
-1372269134 c:\users\teraka\programmes\snake\bloc.h
+1372349548 c:\users\teraka\programmes\snake\bloc.h
 	<SFML/Graphics.hpp>
 	"Defines.h"
+	<iostream>
 
-1372267389 source:c:\users\teraka\programmes\snake\snake.cpp
+1372350125 source:c:\users\teraka\programmes\snake\snake.cpp
 	"Snake.h"
 
-1372269087 c:\users\teraka\programmes\snake\snake.h
+1372350176 c:\users\teraka\programmes\snake\snake.h
 	<SFML/Graphics.hpp>
 	"Defines.h"
 	"Bloc.h"
+	<iostream>
 
-1372268848 c:\users\teraka\programmes\snake\defines.h
+1372349335 c:\users\teraka\programmes\snake\defines.h
 	<SFML/Graphics.hpp>
 
