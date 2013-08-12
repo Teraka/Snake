@@ -2,6 +2,11 @@
 #define DEFINES_H
 #include <SFML/Graphics.hpp>
 
+//These will eventually have to go in a parameter class.
+#define D_TILESIZE 25
+#define D_MIN_SNAKE_LENGTH 3
+#define D_BURIED_TIME 2
+
 enum Bloc_type
 {
     bt_head,
@@ -53,9 +58,11 @@ inline sf::Vector2f int_to_corner(int i)
     }
 }
 
-#define D_BLOCSIZE 25
-#define D_MIN_SNAKE_LENGTH 3
-#define D_BURIED_TIME 2
+inline sf::Vector2f tile_pos_to_coords(sf::Vector2f tile_pos)
+{
+    return sf::Vector2f(tile_pos.x * D_TILESIZE, tile_pos.y * D_TILESIZE);
+}
+
 
 #define print_vertex(v) "[" << v.position.x << "," << v.position.y << "]"
 

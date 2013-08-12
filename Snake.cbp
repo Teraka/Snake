@@ -52,6 +52,8 @@
 		<Unit filename="Defines.h" />
 		<Unit filename="Snake.cpp" />
 		<Unit filename="Snake.h" />
+		<Unit filename="Tile.cpp" />
+		<Unit filename="Tile.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

@@ -23,19 +23,10 @@ private:
         Bloc *current = tail;
         for (int b = 0; current != NULL; b++)
         {
-            current->print_bloc();
+            //current->print_bloc();
             current->blit_quad(vertices, b*4);
             current = current->prev;
         }
-        /*for (int i = 0; i < length; i++)
-        {
-            std::cout << "quad " << i << ":" << std::endl;
-            for (int j = 0; j < 4; j++)
-            {
-                std::cout << print_vertex(vertices[i * 4 + j]);
-            }
-            std::cout << std::endl;
-        }*/
         states.transform *= getTransform();
         states.texture = tileset;
         target.draw(vertices, states);

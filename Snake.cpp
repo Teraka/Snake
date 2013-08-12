@@ -51,7 +51,7 @@ void Snake::step(int command)
     head->next->update();
     tail->update();
     tail->prev->update();
-    std::cout << "head pos:" << head->pos.x << "," << head->pos.y << std::endl;
+    //std::cout << "head pos:" << head->pos.x << "," << head->pos.y << std::endl;
 }
 
 void Snake::grow(int g)

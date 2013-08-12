@@ -27,6 +27,8 @@ Bloc::~Bloc()
     rebind_prev(NULL);
 }
 
+//TODO: Tail appears normal where it should be burying. Try to find a way to display the hole above
+//the snake rather than having different sprites.
 void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
 {
     //Defining bloc type
@@ -80,24 +82,24 @@ void Bloc::rebind_next(Bloc *n_next)
 {
     if (next != NULL) //If there is a next bloc
         next->prev = NULL; //Unbind this from next
-    next = n_next;
+    next = n_next; //Bind new next to this
     if (next != NULL) //If new next is a bloc
         next->prev = this; //Rebind next bloc to this
 }
 
 void Bloc::rebind_prev(Bloc *n_prev)
 {
-    if (prev != NULL)
-        prev->next = NULL;
-    prev = n_prev;
-    if (prev != NULL)
-        prev->next = this;
+    if (prev != NULL) //If there is a prev bloc
+        prev->next = NULL; //Unbind this from prev
+    prev = n_prev; //Bind new prev to this
+    if (prev != NULL) //If new prev is a bloc
+        prev->next = this; //Rebind prev bloc to this
 }
 
 void Bloc::blit_quad(sf::VertexArray &quad, int index)
 {
     sf::Transform t;
-    t.scale(D_BLOCSIZE, D_BLOCSIZE);
+    t.scale(D_TILESIZE, D_TILESIZE);
     sf::Vector2f corner[4];
     for (int n = 0; n < 4; n++)
     {
