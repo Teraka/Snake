@@ -6,6 +6,7 @@ Snake::Snake(sf::Vector2f n_pos, Direction n_dir, sf::Texture *n_tileset, sf::Co
     head = new Bloc(n_pos, NULL, NULL, n_color, false);
     Bloc *tmp = head;
     buried_timer = 0;
+    growth = 0;
     length = 1;
     for (int i = 1; i < D_MIN_SNAKE_LENGTH; i++)
     {
@@ -37,7 +38,7 @@ void Snake::step(int command)
         growth++;
         length--;
     }
-    tail->pos = head->pos + int_to_dir(dir);
+    tail->pos = head->pos + intToDir(dir);
     if (buried_timer > 0)
     {
         tail->buried = true;

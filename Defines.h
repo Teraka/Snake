@@ -4,6 +4,7 @@
 
 //These will eventually have to go in a parameter class.
 #define D_TILESIZE 25
+#define D_GRIDSIZE 15
 #define D_MIN_SNAKE_LENGTH 3
 #define D_BURIED_TIME 2
 
@@ -13,11 +14,9 @@ enum Bloc_type
     bt_tail,
     bt_straight,
     bt_corner,
-    bt_buried,
-    bt_burying,
-    bt_unburying,
     bt_disconnected_front,
-    bt_disconnected_back
+    bt_disconnected_back,
+    bt_null
 };
 
 enum Direction
@@ -28,7 +27,7 @@ enum Direction
     d_left
 };
 
-inline sf::Vector2f int_to_dir(int i)
+inline sf::Vector2f intToDir(int i)
 {
     switch(i)
     {
@@ -43,7 +42,7 @@ inline sf::Vector2f int_to_dir(int i)
     }
 }
 
-inline sf::Vector2f int_to_corner(int i)
+inline sf::Vector2f intToCorner(int i)
 {
     switch(i)
     {
@@ -58,7 +57,7 @@ inline sf::Vector2f int_to_corner(int i)
     }
 }
 
-inline sf::Vector2f tile_pos_to_coords(sf::Vector2f tile_pos)
+inline sf::Vector2f tilePosToCoords(sf::Vector2f tile_pos)
 {
     return sf::Vector2f(tile_pos.x * D_TILESIZE, tile_pos.y * D_TILESIZE);
 }

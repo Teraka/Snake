@@ -2,22 +2,25 @@
 #define TILE_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "Defines.h"
 
 class Tile
 {
-private:
+protected:
     sf::Vector2f pos;
-    sf::Vector2f tex_pos;
+    sf::Vector2f texPos;
     int rot; //Unit : quarter-turns
     sf::Color color;
 public:
-    Tile(sf::Vector2f n_pos, sf::Vector2f n_tex_pos, int n_rot, sf::Color n_color);
+    Tile(sf::Vector2f n_pos, sf::Vector2f n_texPos, int n_rot, sf::Color n_color);
     void move(sf::Vector2f dir);
     void place(sf::Vector2f n_pos);
-    void set_texture(sf::Vector2f n_tex_pos);
+    void setTexture(sf::Vector2f n_texPos);
     void rotate(int n_rot);
-    void set_rot(int n_rot);
-    sf::VertexArray *get_quad();
+    void setRot(int n_rot);
+    sf::Vector2f getToricPos();
+    sf::VertexArray getQuad();
 };
 
 #endif // TILE_H

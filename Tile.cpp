@@ -1,9 +1,9 @@
 #include "Tile.h"
 
-Tile::Tile(sf::Vector2f n_pos, sf::Vector2f n_tex_pos, int n_rot = 0, sf::Color n_color = sf::Color.White)
+Tile::Tile(sf::Vector2f n_pos, sf::Vector2f n_texPos, int n_rot = 0, sf::Color n_color = sf::Color::White)
 {
     pos = n_pos;
-    tex_pos = n_tex_pos;
+    texPos = n_texPos;
     rot = n_rot;
     color = n_color;
 }
@@ -18,9 +18,9 @@ void Tile::place(sf::Vector2f n_pos)
     pos = n_pos;
 }
 
-void Tile::set_texture(sf::Vector2f n_tex_pos)
+void Tile::setTexture(sf::Vector2f n_texPos)
 {
-    tex_pos = n_tex_pos;
+    texPos = n_texPos;
 }
 
 void Tile::rotate(int n_rot)
@@ -32,18 +32,36 @@ void Tile::rotate(int n_rot)
         rot %= 4;
 }
 
-void Tile::set_rot(int n_rot)
+void Tile::setRot(int n_rot)
 {
     rot = n_rot;
 }
 
-sf::VertexArray *get_quad()
+sf::Vector2f Tile::getToricPos() //Think about improving that. Probably not the most efficient function ever.
 {
-    sf::VertexArray *quad = new sf::VertexArray(sf::Quads, 4);
+    sf::Vector2f result = pos;
+    std::cout << pos.x << "," << pos.y << std::endl;
+    if (pos.x >= D_GRIDSIZE)
+        result.x = int(pos.x) % D_GRIDSIZE;
+    else while (result.x < 0)
+        result.x += D_GRIDSIZE;
+    if (pos.y >= D_GRIDSIZE)
+        result.y = int(pos.y) % D_GRIDSIZE;
+    else while (result.y < 0)
+        result.y += D_GRIDSIZE;
+    std::cout << "new:" << result.x << "," << result.y << std::endl << std::endl;
+    return result;
+}
+
+sf::VertexArray Tile::getQuad()
+{
+    sf::VertexArray quad = sf::VertexArray(sf::Quads, 4);
+    sf::Transform t;
+    t.scale(D_TILESIZE, D_TILESIZE);
     for (int i = 0; i < 4; i++)
     {
-        quad[(i + rot) % 4].position = (int_to_corner(i) + pos) * D_TILESIZE;
-        quad[i].texCoords = (int_to_corner(i) + tex_pos) * D_TILESIZE;
+        quad[(i + rot) % 4].position = t * (intToCorner(i) + getToricPos());
+        quad[i].texCoords = t * (intToCorner(i) + texPos);
         quad[i].color = color;
     }
     return quad;

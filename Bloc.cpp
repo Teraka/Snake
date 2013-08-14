@@ -1,5 +1,7 @@
 #include "Bloc.h"
 
+#define getTexPos(x) sf::Vector2f(type & 0x3, type >> 2)
+
 /*
 Think a lot about how to update blocs as little as necessary.
 */
@@ -10,15 +12,14 @@ void Bloc::print_bloc()
     std::cout << "[p:" << prev << "],[n:" << next << "]" << std::endl << std::endl;
 }
 
-Bloc::Bloc(sf::Vector2f n_pos, Bloc* n_prev, Bloc* n_next, sf::Color n_color, bool n_buried)
+Bloc::Bloc(sf::Vector2f n_pos, Bloc* n_prev, Bloc* n_next, sf::Color n_color, bool n_buried) : Tile(n_pos, sf::Vector2f(0, 0), 0, n_color)
 {
-    pos = n_pos;
-    color = n_color;
     buried = n_buried;
     next = NULL;
     prev = NULL;
     rebind_next(n_next);
     rebind_prev(n_prev);
+    update();
 }
 
 Bloc::~Bloc()
@@ -32,23 +33,22 @@ Bloc::~Bloc()
 void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
 {
     //Defining bloc type
-    if (buried) type = bt_buried;
+    if (prev == NULL && next == NULL) type = bt_null;
     else if (prev == NULL) type = bt_head;
     else if (next == NULL) type = bt_tail;
     else if (abs(pos.x - next->pos.x) +
              abs(pos.y - next->pos.y) != 1) type = bt_disconnected_front;
     else if (abs(pos.x - prev->pos.x) +
              abs(pos.y - prev->pos.y) != 1) type = bt_disconnected_back;
-    else if (prev->buried) type = bt_burying;
-    else if (next->buried) type = bt_unburying;
     else if ((next->pos.x + prev->pos.x)/2.0 == pos.x) type = bt_straight;
     else type = bt_corner;
+
+    texPos = getTexPos(type);
 
     //Defining rotation
     switch(type)
     {
     case bt_head:
-    case bt_burying:
     case bt_disconnected_front:
         if (pos.y < next->pos.y) rot = 0;
         else if (pos.x > next->pos.x) rot = 3;
@@ -56,7 +56,6 @@ void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
         else rot = 1;
         break;
     case bt_tail:
-    case bt_unburying:
     case bt_disconnected_back:
         if (pos.y > prev->pos.y) rot = 0;
         else if (pos.x < prev->pos.x) rot = 3;
@@ -94,24 +93,4 @@ void Bloc::rebind_prev(Bloc *n_prev)
     prev = n_prev; //Bind new prev to this
     if (prev != NULL) //If new prev is a bloc
         prev->next = this; //Rebind prev bloc to this
-}
-
-void Bloc::blit_quad(sf::VertexArray &quad, int index)
-{
-    sf::Transform t;
-    t.scale(D_TILESIZE, D_TILESIZE);
-    sf::Vector2f corner[4];
-    for (int n = 0; n < 4; n++)
-    {
-        corner[n] = t * int_to_corner(n);
-    }
-    sf::Vector2f origin = t * pos;
-    sf::Vector2f tex_origin = sf::Vector2f(type & 0x3, type >> 2);
-    tex_origin = t * tex_origin;
-    for (int v = 0; v < 4; v++)
-    {
-        quad[index+v].position = origin + corner[v];
-        quad[index+v].texCoords = tex_origin + corner[(v + rot) % 4];
-        quad[index+v].color = color;
-    }
 }

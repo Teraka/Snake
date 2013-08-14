@@ -49,11 +49,14 @@
 		</Linker>
 		<Unit filename="Bloc.cpp" />
 		<Unit filename="Bloc.h" />
+		<Unit filename="Changelog.txt" />
 		<Unit filename="Defines.h" />
 		<Unit filename="Snake.cpp" />
 		<Unit filename="Snake.h" />
 		<Unit filename="Tile.cpp" />
 		<Unit filename="Tile.h" />
+		<Unit filename="TileGrid.cpp" />
+		<Unit filename="TileGrid.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

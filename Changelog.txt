@@ -1,0 +1,10 @@
+v0.2:
+ - Modified Snake class to use Tiles.
+ - Added wrap-around functionality to Tiles.
+ - Added rudimentary controls.
+
+v0.1.1:
+ - Added Tile class for future Snake refactoring.
+
+v0.1:
+ - Created simple Snake class, able to draw itself, move, and bury.
