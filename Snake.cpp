@@ -3,11 +3,12 @@
 Snake::Snake(sf::Vector2f n_pos, Direction n_dir, sf::Texture *n_tileset, sf::Color n_color)
 {
     tileset = n_tileset;
-    head = new Bloc(n_pos, NULL, NULL, n_color, false);
-    Bloc *tmp = head;
     buried_timer = 0;
     growth = 0;
     length = 1;
+    dir = n_dir;
+    head = new Bloc(n_pos, NULL, NULL, n_color, false);
+    Bloc *tmp = head;
     for (int i = 1; i < D_MIN_SNAKE_LENGTH; i++)
     {
         tmp = new Bloc(n_pos, tmp, NULL, n_color, true);
@@ -18,9 +19,9 @@ Snake::Snake(sf::Vector2f n_pos, Direction n_dir, sf::Texture *n_tileset, sf::Co
 
 void Snake::step(int command)
 {
-    dir = command & 0x3; //Change that later for something more usable, like handling u-turns and delayed commands.
     if (command & 0x4)
         buried_timer = D_BURIED_TIME;
+    else dir = command & 0x3; //Change that later for something more usable, like handling u-turns and delayed commands.
     Bloc *tmp = tail->prev;
     tail->rebind_prev(NULL);
     tail->rebind_next(head);

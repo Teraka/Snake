@@ -5,7 +5,9 @@
 #include "Bloc.h"
 #include <iostream>
 
-//TODO: Create an overlay to store all overlay stuff (specifically the buried
+//TODO: Separate controls from the step function.
+//TODO: Make it so that the snake can't bury while turning, or turn while buried.
+//TODO: While head is buried or if it buried at this frame, disregard turn orders.
 
 class Snake : public sf::Drawable, sf::Transformable
 {

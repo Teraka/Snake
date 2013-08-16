@@ -50,18 +50,18 @@ int main()
                 break;
             }
         }
-        if (frame % 7 == 0)
+        /*if (frame % 7 == 0)
         {
             snake.step(dir | 0x4);
             snake2.step(dir | 0x4);
             snake3.step(dir | 0x4);
         }
         else
-        {
+        {*/
             snake.step(dir);
             snake2.step(dir);
             snake3.step(dir);
-        }
+        //}
         /*if (frame % 4 == 3)
         {
             dir += 1;

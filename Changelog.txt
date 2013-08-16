@@ -1,3 +1,6 @@
+v0.3:
+ - Added support for overlays (buried sprites mostly)
+
 v0.2:
  - Modified Snake class to use Tiles.
  - Added wrap-around functionality to Tiles.

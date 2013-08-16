@@ -10,7 +10,6 @@ class Bloc : public Tile
 private:
     Bloc *prev;
     Bloc *next;
-    Bloc_type type;
     bool buried;
     void rebind_next(Bloc*);
     void rebind_prev(Bloc*);

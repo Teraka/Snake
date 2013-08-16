@@ -10,13 +10,21 @@
 
 enum Bloc_type
 {
+    bt_null,
     bt_head,
     bt_tail,
     bt_straight,
     bt_corner,
     bt_disconnected_front,
-    bt_disconnected_back,
-    bt_null
+    bt_disconnected_back
+};
+
+enum Overlay
+{
+    ov_null = 0x0,
+    ov_buried = 0x8,
+    ov_burying = 0x10,
+    ov_unburying = 0x18
 };
 
 enum Direction

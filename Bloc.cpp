@@ -1,6 +1,6 @@
 #include "Bloc.h"
 
-#define getTexPos(x) sf::Vector2f(type & 0x3, type >> 2)
+#define getTexPos(x) sf::Vector2f(type & 0x7, type >> 3)
 
 /*
 Think a lot about how to update blocs as little as necessary.
@@ -33,6 +33,7 @@ Bloc::~Bloc()
 void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
 {
     //Defining bloc type
+    int type;
     if (prev == NULL && next == NULL) type = bt_null;
     else if (prev == NULL) type = bt_head;
     else if (next == NULL) type = bt_tail;
@@ -42,6 +43,10 @@ void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
              abs(pos.y - prev->pos.y) != 1) type = bt_disconnected_back;
     else if ((next->pos.x + prev->pos.x)/2.0 == pos.x) type = bt_straight;
     else type = bt_corner;
+
+    if (buried) type |= ov_buried;
+    else if (prev != NULL && prev -> buried) type |= ov_burying;
+    else if (next != NULL && next -> buried) type |= ov_unburying;
 
     texPos = getTexPos(type);
 
