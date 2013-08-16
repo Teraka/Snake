@@ -14,11 +14,11 @@ int main()
     {
         return -1;
     }
-    Snake snake = Snake(sf::Vector2f(0, 0), d_right, &texture, sf::Color::Red);
-    Snake snake2 = Snake(sf::Vector2f(1, 1), d_right, &texture, sf::Color::Green);
-    Snake snake3 = Snake(sf::Vector2f(2, 2), d_right, &texture, sf::Color::Blue);
+    Snake snake = Snake(sf::Vector2f(0, 0), d_right, &texture, sf::Color::Green);
     int frame = 0;
+    sf::Clock clock;
     int dir = d_right;
+    bool pause = false;
     while (window.isOpen())
     {
         sf::Event event;
@@ -33,16 +33,22 @@ int main()
                 switch(event.key.code)
                 {
                 case sf::Keyboard::Up:
-                    dir = d_up;
+                    snake.turn(d_up);
                     break;
                 case sf::Keyboard::Down:
-                    dir = d_down;
+                    snake.turn(d_down);
                     break;
                 case sf::Keyboard::Right:
-                    dir = d_right;
+                    snake.turn(d_right);
                     break;
                 case sf::Keyboard::Left:
-                    dir = d_left;
+                    snake.turn(d_left);
+                    break;
+                case sf::Keyboard::RControl:
+                    snake.bury();
+                    break;
+                case sf::Keyboard::Space:
+                    pause = !pause;
                     break;
                 }
                 break;
@@ -58,9 +64,7 @@ int main()
         }
         else
         {*/
-            snake.step(dir);
-            snake2.step(dir);
-            snake3.step(dir);
+        if (!pause) snake.step();
         //}
         /*if (frame % 4 == 3)
         {
@@ -68,17 +72,22 @@ int main()
             if (dir > 3)
                 dir = 0;
         }*/
-        if (frame % 10 == 0 && frame < 100)
-        {
-            snake.grow(1);
-            snake2.grow(1);
-            snake3.grow(1);
-        }
+        //if (frame % 10 == 0 && frame < 100)
+        //{
+        snake.grow(1);
+        if (snake.getLength() > 100)
+            snake.grow(-250);
+        //}
         frame++;
+        if (frame % 100 == 0)
+        {
+            sf::Time elapsed = clock.restart();
+            system("cls");
+            std::cout << frame/elapsed.asSeconds() << "fps" << std::endl << snake.getLength() << std::endl;
+            frame = 0;
+        }
         window.clear();
         window.draw(snake);
-        window.draw(snake2);
-        window.draw(snake3);
         window.display();
     }
 

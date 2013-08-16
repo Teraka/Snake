@@ -40,7 +40,6 @@ void Tile::setRot(int n_rot)
 sf::Vector2f Tile::getToricPos() //Think about improving that. Probably not the most efficient function ever.
 {
     sf::Vector2f result = pos;
-    std::cout << pos.x << "," << pos.y << std::endl;
     if (pos.x >= D_GRIDSIZE)
         result.x = int(pos.x) % D_GRIDSIZE;
     else while (result.x < 0)
@@ -49,7 +48,6 @@ sf::Vector2f Tile::getToricPos() //Think about improving that. Probably not the 
         result.y = int(pos.y) % D_GRIDSIZE;
     else while (result.y < 0)
         result.y += D_GRIDSIZE;
-    std::cout << "new:" << result.x << "," << result.y << std::endl << std::endl;
     return result;
 }
 
@@ -60,8 +58,8 @@ sf::VertexArray Tile::getQuad()
     t.scale(D_TILESIZE, D_TILESIZE);
     for (int i = 0; i < 4; i++)
     {
-        quad[(i + rot) % 4].position = t * (intToCorner(i) + getToricPos());
-        quad[i].texCoords = t * (intToCorner(i) + texPos);
+        quad[i].position = t * (intToCorner(i) + getToricPos());
+        quad[(i + rot) % 4].texCoords = t * (intToCorner(i) + texPos);
         quad[i].color = color;
     }
     return quad;

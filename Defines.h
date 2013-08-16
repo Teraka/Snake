@@ -6,7 +6,7 @@
 #define D_TILESIZE 25
 #define D_GRIDSIZE 15
 #define D_MIN_SNAKE_LENGTH 3
-#define D_BURIED_TIME 2
+#define D_BURIED_TIME 1
 
 enum Bloc_type
 {

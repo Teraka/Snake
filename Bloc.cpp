@@ -8,7 +8,7 @@ Think a lot about how to update blocs as little as necessary.
 
 void Bloc::print_bloc()
 {
-    std::cout << "[t:" << this << "],[" << pos.x << "," << pos.y << "]," << buried << std::endl;
+    std::cout << "[t:" << this << "],[" << pos.x << "," << pos.y << "]," << buried << "," << rot << std::endl;
     std::cout << "[p:" << prev << "],[n:" << next << "]" << std::endl << std::endl;
 }
 
@@ -44,42 +44,50 @@ void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
     else if ((next->pos.x + prev->pos.x)/2.0 == pos.x) type = bt_straight;
     else type = bt_corner;
 
-    if (buried) type |= ov_buried;
-    else if (prev != NULL && prev -> buried) type |= ov_burying;
-    else if (next != NULL && next -> buried) type |= ov_unburying;
-
-    texPos = getTexPos(type);
-
     //Defining rotation
     switch(type)
     {
     case bt_head:
     case bt_disconnected_front:
         if (pos.y < next->pos.y) rot = 0;
-        else if (pos.x > next->pos.x) rot = 3;
+        else if (pos.x > next->pos.x) rot = 1;
         else if (pos.y > next->pos.y) rot = 2;
-        else rot = 1;
+        else rot = 3;
         break;
     case bt_tail:
     case bt_disconnected_back:
         if (pos.y > prev->pos.y) rot = 0;
-        else if (pos.x < prev->pos.x) rot = 3;
+        else if (pos.x < prev->pos.x) rot = 1;
         else if (pos.y < prev->pos.y) rot = 2;
-        else rot = 1;
+        else rot = 3;
         break;
     case bt_straight:
-        if (pos.x == next->pos.x) rot = 0;
-        else rot = 1;
+        if (pos.x == prev->pos.x)
+        {
+            if (pos.y > prev->pos.y) rot = 0;
+            else rot = 2;
+        }
+        else
+        {
+            if (pos.x > prev->pos.x) rot = 3;
+            else rot = 1;
+        }
         break;
     case bt_corner:
         float ax = (pos.x + next->pos.x + prev->pos.x)/3.0;
         float ay = (pos.y + next->pos.y + prev->pos.y)/3.0;
         if (ax > pos.x && ay < pos.y) rot = 0;
-        else if (ax > pos.x && ay > pos.y) rot = 3;
+        else if (ax > pos.x && ay > pos.y) rot = 1;
         else if (ax < pos.x && ay > pos.y) rot = 2;
-        else rot = 1;
+        else rot = 3;
         break;
     }
+
+    if (buried) type |= ov_buried;
+    else if (prev != NULL && prev -> buried) type |= ov_burying;
+    else if (next != NULL && next -> buried) type |= ov_unburying;
+
+    texPos = getTexPos(type);
 }
 
 void Bloc::rebind_next(Bloc *n_next)
