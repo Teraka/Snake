@@ -1,20 +1,24 @@
 #ifndef SNAKE_H
 #define SNAKE_H
+
 #include <SFML/Graphics.hpp>
 #include "Defines.h"
 #include "Bloc.h"
 #include <iostream>
 
-//TODO: While head is buried or if it buried at this frame, disregard turn orders.
+//TODO: Create the control class.
 
 //NOTE: You can use function pointers to make different resurrection conditions.
 
 class Snake : public sf::Drawable, sf::Transformable
 {
-private:
+public:
     static int snake_count;
     Bloc *head;
     Bloc *tail;
+    intArray commandList;
+    int lastCommand;
+    int *frame;
     int prev_dir;
     int dir;
     int next_dir;
@@ -43,10 +47,10 @@ private:
     }
 
 public:
-    Snake(sf::Vector2f, Direction, sf::Texture*, sf::Color); //param: Initial pos, dir, color and tileset
-    void grow(int); //makes the snake grow by that size (or shrink if param is negative)
+    Snake(int *, sf::Vector2f, Direction, sf::Texture*, sf::Color); //param: Initial pos, dir, color and tileset
+    void grow(float); //makes the snake grow by that size (or shrink if param is negative)
     void step(); //param: Commands (bit field)
-    void turn(int);
+    void turn(int n_dir , bool bypass = false);
     void bury();
     void printSnake();
     int getLength() {return length;} //Debug

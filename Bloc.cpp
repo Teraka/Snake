@@ -44,8 +44,12 @@ void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
     else if ((next->pos.x + prev->pos.x)/2.0 == pos.x) type = bt_straight;
     else type = bt_corner;
 
+    if (buried) type |= ov_buried;
+    else if (prev != NULL && prev -> buried) type |= ov_burying;
+    else if (next != NULL && next -> buried) type |= ov_unburying;
+
     //Defining rotation
-    switch(type)
+    switch(type & ~0x18)
     {
     case bt_head:
     case bt_disconnected_front:
@@ -82,10 +86,6 @@ void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
         else rot = 3;
         break;
     }
-
-    if (buried) type |= ov_buried;
-    else if (prev != NULL && prev -> buried) type |= ov_burying;
-    else if (next != NULL && next -> buried) type |= ov_unburying;
 
     texPos = getTexPos(type);
 }

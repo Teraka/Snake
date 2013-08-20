@@ -1,5 +1,6 @@
 #ifndef BLOC_H
 #define BLOC_H
+
 #include <SFML/Graphics.hpp>
 #include "Defines.h"
 #include "Tile.h"

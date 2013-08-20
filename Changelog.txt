@@ -1,3 +1,6 @@
+v0.5:
+ - Refined controls a bit more.
+
 v0.4:
  - Refined Snake class' controls
  - Fixed buried sprites

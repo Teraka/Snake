@@ -1,0 +1,23 @@
+Don't put the command list in the snake. Put them in a control class.
+The control class should handle keyboard/mouse input and dialog with the game
+engine class to make the snakes step in the right direction.
+
+Command list concept :
+    - One entry per frame.
+    - 2 bits to determine direction, 1 to determine burying.
+    - No empty entries.
+    - Keep track of last entry entered.
+    - When moving forward :
+        if current entry is empty, copy entry of frame f-1 (previous frame).
+        else keep going.
+    - When turning :
+        if current entry is empty, define current entry as new direction
+            if direction is compatible with previous entry.
+        else define entry after last entered entry as new direction.
+    - When burying :
+        set current entry and D_BURIED_TIME-1(?) next entries to previous entry.
+
+Eventually, you should have all snake, tiles, and other graphical and game engine
+classes turn on their own thread, and render to a specific renderTarget, that
+you can then put in a window or something, and have menus around that aren't frozen
+by the game.

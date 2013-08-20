@@ -14,8 +14,8 @@ int main()
     {
         return -1;
     }
-    Snake snake = Snake(sf::Vector2f(0, 0), d_right, &texture, sf::Color::Green);
     int frame = 0;
+    Snake snake = Snake(&frame, sf::Vector2f(0, 0), d_right, &texture, sf::Color::Green);
     sf::Clock clock;
     int dir = d_right;
     bool pause = false;
@@ -50,42 +50,25 @@ int main()
                 case sf::Keyboard::Space:
                     pause = !pause;
                     break;
+                default:
+                    break;
                 }
                 break;
             default:
                 break;
             }
         }
-        /*if (frame % 7 == 0)
-        {
-            snake.step(dir | 0x4);
-            snake2.step(dir | 0x4);
-            snake3.step(dir | 0x4);
-        }
-        else
-        {*/
+        system("cls");
         if (!pause) snake.step();
-        //}
-        /*if (frame % 4 == 3)
-        {
-            dir += 1;
-            if (dir > 3)
-                dir = 0;
-        }*/
-        //if (frame % 10 == 0 && frame < 100)
-        //{
-        snake.grow(1);
+        snake.grow(0.2);
         if (snake.getLength() > 100)
-            snake.grow(-250);
-        //}
+            snake.grow(-100);
+        sf::Time elapsed = clock.restart();
+        std::cout << 1/elapsed.asSeconds() << "fps" << std::endl;
+        std::cout << "frame " << frame << std::endl;
         frame++;
-        if (frame % 100 == 0)
-        {
-            sf::Time elapsed = clock.restart();
-            system("cls");
-            std::cout << frame/elapsed.asSeconds() << "fps" << std::endl << snake.getLength() << std::endl;
-            frame = 0;
-        }
+        //std::cout << snake.getLength() << std::endl;
+        //std::cout << snake.growth << std::endl;
         window.clear();
         window.draw(snake);
         window.display();
