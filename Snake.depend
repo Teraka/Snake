@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1377002063 source:c:\users\teraka\programmes\snake\main.cpp
+1377625984 source:c:\users\teraka\programmes\snake\main.cpp
 	<iostream>
 	<SFML/Graphics.hpp>
 	"Snake.h"
+	"TileGrid.h"
 	"Defines.h"
 
 1365233432 c:\program files (x86)\codeblocks\sfml-2.0\include\sfml\graphics.hpp
@@ -339,7 +340,7 @@
 	<string>
 	<vector>
 
-1377002498 source:c:\users\teraka\programmes\snake\bloc.cpp
+1377356587 source:c:\users\teraka\programmes\snake\bloc.cpp
 	"Bloc.h"
 
 1376998324 c:\users\teraka\programmes\snake\bloc.h
@@ -348,16 +349,17 @@
 	"Tile.h"
 	<iostream>
 
-1377002050 source:c:\users\teraka\programmes\snake\snake.cpp
+1377626470 source:c:\users\teraka\programmes\snake\snake.cpp
 	"Snake.h"
 
-1377001864 c:\users\teraka\programmes\snake\snake.h
+1377626533 c:\users\teraka\programmes\snake\snake.h
 	<SFML/Graphics.hpp>
 	"Defines.h"
 	"Bloc.h"
+	"TileGrid.h"
 	<iostream>
 
-1377000818 c:\users\teraka\programmes\snake\defines.h
+1377624984 c:\users\teraka\programmes\snake\defines.h
 	<SFML/Graphics.hpp>
 	<iostream>
 
@@ -367,19 +369,25 @@
 1375887333 c:\users\teraka\programmes\snake\tileset.h
 	<SFML/Graphics.hpp>
 
-1376655603 c:\users\teraka\programmes\snake\tile.h
+1377625610 c:\users\teraka\programmes\snake\tile.h
 	<SFML/Graphics.hpp>
 	<iostream>
 	"Defines.h"
 
-1376655603 source:c:\users\teraka\programmes\snake\tile.cpp
+1377625630 source:c:\users\teraka\programmes\snake\tile.cpp
 	"Tile.h"
 
-1376317687 source:c:\users\teraka\programmes\snake\tilegrid.cpp
+1377626078 source:c:\users\teraka\programmes\snake\tilegrid.cpp
+	"TileGrid.h"
 
 1376998276 source:c:\users\teraka\programmes\snake\engine.cpp
 	"Engine.h"
 
 1376998436 c:\users\teraka\programmes\snake\engine.h
 	"Defines.h"
+
+1377624501 c:\users\teraka\programmes\snake\tilegrid.h
+	<SFML/Graphics.hpp>
+	"Defines.h"
+	"Tile.h"
 

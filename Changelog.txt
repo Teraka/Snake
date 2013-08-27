@@ -1,3 +1,7 @@
+v0.6:
+ - Added collision and background grid.
+ - Added death in case of collision and resurrection when min size.
+
 v0.5:
  - Refined controls a bit more.
 

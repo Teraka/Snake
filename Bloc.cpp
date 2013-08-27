@@ -1,7 +1,5 @@
 #include "Bloc.h"
 
-#define getTexPos(x) sf::Vector2f(type & 0x7, type >> 3)
-
 /*
 Think a lot about how to update blocs as little as necessary.
 */
@@ -49,7 +47,7 @@ void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
     else if (next != NULL && next -> buried) type |= ov_unburying;
 
     //Defining rotation
-    switch(type & ~0x18)
+    switch(type & ~0x18) //The & ~0x18 removes the overlay flags.
     {
     case bt_head:
     case bt_disconnected_front:
@@ -87,7 +85,7 @@ void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
         break;
     }
 
-    texPos = getTexPos(type);
+    texPos = sf::Vector2f(type & 0x7, type >> 3);
 }
 
 void Bloc::rebind_next(Bloc *n_next)

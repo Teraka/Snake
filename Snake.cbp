@@ -57,6 +57,8 @@
 		<Unit filename="Snake.h" />
 		<Unit filename="Tile.cpp" />
 		<Unit filename="Tile.h" />
+		<Unit filename="TileGrid.cpp" />
+		<Unit filename="TileGrid.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

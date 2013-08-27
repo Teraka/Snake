@@ -1,5 +1,13 @@
 #include "Tile.h"
 
+Tile::Tile()
+{
+    pos = sf::Vector2f(0, 0);
+    texPos = sf::Vector2f(0, 0);
+    rot = 0;
+    color = sf::Color::White;
+}
+
 Tile::Tile(sf::Vector2f n_pos, sf::Vector2f n_texPos, int n_rot = 0, sf::Color n_color = sf::Color::White)
 {
     pos = n_pos;
@@ -35,6 +43,16 @@ void Tile::rotate(int n_rot)
 void Tile::setRot(int n_rot)
 {
     rot = n_rot;
+}
+
+void Tile::setColor(sf::Color n_color)
+{
+    color = n_color;
+}
+
+void Tile::setAlpha(int alpha)
+{
+    color.a = alpha;
 }
 
 sf::Vector2f Tile::getToricPos() //Think about improving that. Probably not the most efficient function ever.

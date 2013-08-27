@@ -1,7 +1,10 @@
 #include "Snake.h"
 
-Snake::Snake(int *n_frame, sf::Vector2f n_pos, Direction n_dir, sf::Texture *n_tileset, sf::Color n_color)
+int Snake::snake_count = 0;
+
+Snake::Snake(int *n_frame, TileGrid *n_collisionGrid, sf::Vector2f n_pos, Direction n_dir, sf::Texture *n_tileset, sf::Color n_color)
 {
+    id = ++snake_count;
     frame = n_frame;
     commandList = intArray();
     commandList.set(0, n_dir);
@@ -10,8 +13,10 @@ Snake::Snake(int *n_frame, sf::Vector2f n_pos, Direction n_dir, sf::Texture *n_t
     buried_timer = 0;
     growth = 0;
     length = 1;
+    alive = true;
     changed_dir = false;
     head = new Bloc(n_pos, NULL, NULL, n_color, false);
+    collisionGrid = n_collisionGrid;
     Bloc *tmp = head;
     for (int i = 1; i < D_MIN_SNAKE_LENGTH; i++)
     {
@@ -19,14 +24,14 @@ Snake::Snake(int *n_frame, sf::Vector2f n_pos, Direction n_dir, sf::Texture *n_t
         tmp = new Bloc(n_pos, tmp, NULL, n_color, true);
         length++;
     }
+    updateCollisionGrid();
     tail = tmp;
 }
 
 void Snake::turn(int n_dir, bool bypass)
 {
     if (n_dir % 2 == commandList.get(lastCommand) % 2 && !bypass) return;
-    commandList.set(lastCommand+1, n_dir);
-    lastCommand++;
+    commandList.set(++lastCommand, n_dir);
 }
 
 void Snake::bury()
@@ -40,8 +45,33 @@ void Snake::bury()
     lastCommand = *frame + D_BURIED_TIME + 1;
 }
 
+void Snake::updateCollisionGrid()
+{
+    if (!alive) return;
+    Bloc *current = head;
+    while (current)
+    {
+        if (!current->buried) collisionGrid->set_at(current->getToricPos(), id);
+        current = current->next;
+    }
+}
+
 void Snake::step()
 {
+    if (!alive)
+    {
+        growth += DEATH_GROWTH_RATE;
+        if (length <= D_MIN_SNAKE_LENGTH)
+        { //Resurrection
+            alive = true;
+            Bloc *current = head;
+            while (current)
+            {
+                current->setAlpha(255);
+                current = current->next;
+            }
+        }
+    }
     Bloc *tmp = tail->prev; //Keep a pointer to the future tail.
     tail->rebind_prev(NULL); //Make tail the new head.
     tail->rebind_next(head);
@@ -73,6 +103,17 @@ void Snake::step()
     head->next->update();
     tail->update();
     tail->prev->update();
+    if (collisionGrid->getCollision(head->getToricPos()))
+    { //Death
+        alive = false;
+        Bloc *current = head;
+        while (current)
+        {
+            current->setAlpha(128);
+            current = current->next;
+        }
+    }
+    updateCollisionGrid();
     //printSnake();
 }
 
@@ -89,5 +130,6 @@ void Snake::printSnake()
 
 void Snake::grow(float g)
 {
+    if (!alive) return;
     growth += g;
 }

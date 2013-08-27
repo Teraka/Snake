@@ -1,23 +1,28 @@
-Don't put the command list in the snake. Put them in a control class.
-The control class should handle keyboard/mouse input and dialog with the game
-engine class to make the snakes step in the right direction.
+Eventually, you should have all snake, tiles, and other graphical and game
+engine classes turn on their own thread, and render to a specific renderTarget,
+that you can then put in a window or something, and have menus around that
+aren't frozen by the game.
 
-Command list concept :
-    - One entry per frame.
-    - 2 bits to determine direction, 1 to determine burying.
-    - No empty entries.
-    - Keep track of last entry entered.
-    - When moving forward :
-        if current entry is empty, copy entry of frame f-1 (previous frame).
-        else keep going.
-    - When turning :
-        if current entry is empty, define current entry as new direction
-            if direction is compatible with previous entry.
-        else define entry after last entered entry as new direction.
-    - When burying :
-        set current entry and D_BURIED_TIME-1(?) next entries to previous entry.
+For terrain tiles :
+    - You can have tiles working the same way as snake sprites : One line for 
+        non-collision blocks, one for collision blocks. The bit that separates
+        the two lines is the collision bit.
+    - Have a class with a grid of tiles that also has an int grid snakes can
+        update manually through a pointer. Think very carefully about how you
+        remove collision when a snake dies.
+        - Also have a grid for item collision in there, to add later.
 
-Eventually, you should have all snake, tiles, and other graphical and game engine
-classes turn on their own thread, and render to a specific renderTarget, that
-you can then put in a window or something, and have menus around that aren't frozen
-by the game.
+For CTF maps :
+    - 2 bases, each with a flag, the goal is to cap the enemy flag as many times
+        as possible.
+        - You capture the flag by encircling it maybe, and lose it when burying
+            or dying.
+        - Can only ressurect by going in your own base. This means that a toric
+            level won't cause problems if you have walls on either end : You
+            can't shortcut to the enemy base without dying, and can't ressurect
+            once you're there.
+
+For weapons :
+    - Maybe make weapons that reduce your snake's length, and make it that you
+        die if you go under a certain length. Maybe also make "growing stations"
+        in team bases.
