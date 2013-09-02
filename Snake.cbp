@@ -51,8 +51,8 @@
 		<Unit filename="Bloc.h" />
 		<Unit filename="Changelog.txt" />
 		<Unit filename="Defines.h" />
-		<Unit filename="Engine.cpp" />
-		<Unit filename="Engine.h" />
+		<Unit filename="GameEngine.cpp" />
+		<Unit filename="GameEngine.h" />
 		<Unit filename="Snake.cpp" />
 		<Unit filename="Snake.h" />
 		<Unit filename="Tile.cpp" />

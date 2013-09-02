@@ -26,3 +26,11 @@ For weapons :
     - Maybe make weapons that reduce your snake's length, and make it that you
         die if you go under a certain length. Maybe also make "growing stations"
         in team bases.
+
+For snake tiles :
+    - Make a list of bit fields, each corresponding to a certain tileID + rot.
+        the bit fields corresponds to information about the snake : previous
+        block's direction, this bloc's direction, head/tail/neither,
+        burying/unburying/buried/neither (1 bit for previous block buried, 1 for
+        next block buried, both if this block is buried).
+        - Probable total combinations : 4*4*4*4=256 (8 bits total).

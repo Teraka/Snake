@@ -7,10 +7,12 @@
 //These will eventually have to go in a parameter class.
 #define D_TILESIZE 25
 #define D_GRIDSIZE 30
-#define D_MIN_SNAKE_LENGTH 3
+#define D_MIN_SNAKE_LENGTH 5
 
 #define D_BURIED_TIME 1
 #define D_BURY_COOLDOWN 2
+
+#define DEATH_GROWTH_RATE -1
 
 enum Bloc_type
 {

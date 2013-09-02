@@ -55,17 +55,11 @@ void Tile::setAlpha(int alpha)
     color.a = alpha;
 }
 
-sf::Vector2f Tile::getToricPos() //Think about improving that. Probably not the most efficient function ever.
+sf::Vector2f Tile::getToricPos()
 {
     sf::Vector2f result = pos;
-    if (pos.x >= D_GRIDSIZE)
-        result.x = int(pos.x) % D_GRIDSIZE;
-    else while (result.x < 0)
-        result.x += D_GRIDSIZE;
-    if (pos.y >= D_GRIDSIZE)
-        result.y = int(pos.y) % D_GRIDSIZE;
-    else while (result.y < 0)
-        result.y += D_GRIDSIZE;
+    result.x = pos.x >= 0 ? int(pos.x) % D_GRIDSIZE : D_GRIDSIZE + (int(pos.x) % -D_GRIDSIZE);
+    result.y = pos.y >= 0 ? int(pos.y) % D_GRIDSIZE : D_GRIDSIZE + (int(pos.y) % -D_GRIDSIZE);
     return result;
 }
 

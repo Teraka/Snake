@@ -8,7 +8,7 @@
 class TileGrid : public sf::Drawable, sf::Transformable
 {
 private:
-    Tile *grid;
+    Tile *tileGrid;
     int *collisionGrid;
     int *nextGrid;
     int removed; //Bitmap of all bits to remove in the next iteration.
@@ -20,7 +20,7 @@ private:
         sf::VertexArray vertices(sf::Quads, size.x * size.y * 4);
         for (int i = 0; i < size.x * size.y; i++)
         {
-            sf::VertexArray tmp = grid[i].getQuad();
+            sf::VertexArray tmp = tileGrid[i].getQuad();
             for (int i = 0; i < 4; i++)
                 vertices.append(tmp[i]);
         }
@@ -32,7 +32,7 @@ private:
 public:
     TileGrid(sf::Vector2f n_size);
     void set_at(sf::Vector2f pos, int v);
-    bool getCollision(sf::Vector2f coord);
+    int getCollision(sf::Vector2f pos);
     void flip();
 };
 

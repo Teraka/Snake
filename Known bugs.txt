@@ -1,0 +1,2 @@
+When 5 blocks long and not growing, a blinking corner appears where the tail should've been
+    when dying by making a 2-wide circle.

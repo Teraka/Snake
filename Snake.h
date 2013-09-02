@@ -7,8 +7,6 @@
 #include "TileGrid.h"
 #include <iostream>
 
-#define DEATH_GROWTH_RATE -1/3.0
-
 //NOTE: You can use function pointers to make different resurrection conditions.
 
 class Snake : public sf::Drawable, sf::Transformable
@@ -57,6 +55,7 @@ public:
     void step(); //param: Commands (bit field)
     void turn(int n_dir , bool bypass = false);
     void bury();
+    void checkCollision();
     void printSnake();
     int getLength() {return length;} //Debug
 };

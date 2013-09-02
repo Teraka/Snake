@@ -1,18 +1,15 @@
 #include "Bloc.h"
 
-/*
-Think a lot about how to update blocs as little as necessary.
-*/
-
 void Bloc::print_bloc()
 {
     std::cout << "[t:" << this << "],[" << pos.x << "," << pos.y << "]," << buried << "," << rot << std::endl;
     std::cout << "[p:" << prev << "],[n:" << next << "]" << std::endl << std::endl;
 }
 
-Bloc::Bloc(sf::Vector2f n_pos, Bloc* n_prev, Bloc* n_next, sf::Color n_color, bool n_buried) : Tile(n_pos, sf::Vector2f(0, 0), 0, n_color)
+Bloc::Bloc(sf::Vector2f n_pos, int n_dir, Bloc* n_prev, Bloc* n_next, sf::Color n_color, bool n_buried) : Tile(n_pos, sf::Vector2f(0, 0), 0, n_color)
 {
     buried = n_buried;
+    dir = n_dir;
     next = NULL;
     prev = NULL;
     rebind_next(n_next);
@@ -26,66 +23,35 @@ Bloc::~Bloc()
     rebind_prev(NULL);
 }
 
-//TODO: Tail appears normal where it should be burying. Try to find a way to display the hole above
-//the snake rather than having different sprites.
 void Bloc::update() //Bloc type and rotation are *only* used for the sprite.
 {
-    //Defining bloc type
-    int type;
-    if (prev == NULL && next == NULL) type = bt_null;
-    else if (prev == NULL) type = bt_head;
-    else if (next == NULL) type = bt_tail;
-    else if (abs(pos.x - next->pos.x) +
-             abs(pos.y - next->pos.y) != 1) type = bt_disconnected_front;
-    else if (abs(pos.x - prev->pos.x) +
-             abs(pos.y - prev->pos.y) != 1) type = bt_disconnected_back;
-    else if ((next->pos.x + prev->pos.x)/2.0 == pos.x) type = bt_straight;
-    else type = bt_corner;
-
-    if (buried) type |= ov_buried;
-    else if (prev != NULL && prev -> buried) type |= ov_burying;
-    else if (next != NULL && next -> buried) type |= ov_unburying;
-
-    //Defining rotation
-    switch(type & ~0x18) //The & ~0x18 removes the overlay flags.
+    if (buried)
     {
-    case bt_head:
-    case bt_disconnected_front:
-        if (pos.y < next->pos.y) rot = 0;
-        else if (pos.x > next->pos.x) rot = 1;
-        else if (pos.y > next->pos.y) rot = 2;
-        else rot = 3;
+        texPos = sf::Vector2f(0, 0);
+        return;
+    }
+    int buryId = (prev && prev->buried) | ((next && next->buried) << 1);
+    texPos.y = (next == NULL ? 3 : (prev == NULL ? 2 : int(dir != next->dir))); //Define bloc type : 0:straight, 1:corner, 2:head, 3:tail.
+    switch(int(texPos.y))
+    {
+    case 0:
+        texPos.x = buryId == 0 ? 1 : 2;
+        if (buryId == 2) rot = (dir + 2) % 4;
+        else rot = dir;
         break;
-    case bt_tail:
-    case bt_disconnected_back:
-        if (pos.y > prev->pos.y) rot = 0;
-        else if (pos.x < prev->pos.x) rot = 1;
-        else if (pos.y < prev->pos.y) rot = 2;
-        else rot = 3;
-        break;
-    case bt_straight:
-        if (pos.x == prev->pos.x)
-        {
-            if (pos.y > prev->pos.y) rot = 0;
-            else rot = 2;
-        }
+    case 1:
+        if (!next->buried && !prev->buried)
+            texPos.x = 0;
         else
-        {
-            if (pos.x > prev->pos.x) rot = 3;
-            else rot = 1;
-        }
+            texPos.x = 1 + int((dir + 1) % 4 == next->dir ^ next->buried);
+        rot = ((dir + 1) % 4 == next->dir) ? (next->dir + 2) % 4 : dir;
         break;
-    case bt_corner:
-        float ax = (pos.x + next->pos.x + prev->pos.x)/3.0;
-        float ay = (pos.y + next->pos.y + prev->pos.y)/3.0;
-        if (ax > pos.x && ay < pos.y) rot = 0;
-        else if (ax > pos.x && ay > pos.y) rot = 1;
-        else if (ax < pos.x && ay > pos.y) rot = 2;
-        else rot = 3;
+    case 2:
+    case 3:
+        texPos.x = buryId;
+        rot = dir;
         break;
     }
-
-    texPos = sf::Vector2f(type & 0x7, type >> 3);
 }
 
 void Bloc::rebind_next(Bloc *n_next)

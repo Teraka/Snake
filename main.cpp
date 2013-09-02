@@ -4,8 +4,6 @@
 #include "TileGrid.h"
 #include "Defines.h"
 
-//TODO: Make a collision grid class and have all snakes have a pointer to the same.
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(D_GRIDSIZE * D_TILESIZE, D_GRIDSIZE * D_TILESIZE), "SFML works!");
@@ -18,7 +16,7 @@ int main()
     int frame = 0;
     TileGrid grid = TileGrid(sf::Vector2f(D_GRIDSIZE, D_GRIDSIZE));
     Snake snake = Snake(&frame, &grid, sf::Vector2f(0, 0), d_right, &texture, sf::Color::Green);
-    Snake snake2 = Snake(&frame, &grid, sf::Vector2f(0, 10), d_right, &texture, sf::Color::Red);
+    //Snake snake2 = Snake(&frame, &grid, sf::Vector2f(0, 10), d_right, &texture, sf::Color::Red);
     sf::Clock clock;
     int dir = d_right;
     bool pause = false;
@@ -50,7 +48,7 @@ int main()
                 case sf::Keyboard::RControl:
                     snake.bury();
                     break;
-                case sf::Keyboard::W:
+                /*case sf::Keyboard::W:
                     snake2.turn(d_up);
                     break;
                 case sf::Keyboard::S:
@@ -64,7 +62,7 @@ int main()
                     break;
                 case sf::Keyboard::F:
                     snake2.bury();
-                    break;
+                    break;*/
                 case sf::Keyboard::Space:
                     pause = !pause;
                     break;
@@ -79,26 +77,29 @@ int main()
         system("cls");
         if (!pause)
         {
-            snake.grow(0.2);
-            snake2.grow(0.2);
+            //snake.grow(1);
+            //snake2.grow(1);
             snake.step();
-            snake2.step();
+            //snake2.step();
+            grid.flip();
+            snake.checkCollision();
+            //snake2.checkCollision();
         }
         if (snake.getLength() > 75)
             snake.grow(-100);
-        if (snake2.getLength() > 75)
-            snake2.grow(-100);
-        grid.flip();
+        //if (snake2.getLength() > 75)
+        //    snake2.grow(-100);
         sf::Time elapsed = clock.restart();
         std::cout << 1/elapsed.asSeconds() << "fps" << std::endl;
         std::cout << "frame " << frame << std::endl;
         std::cout << snake.getLength() << std::endl;
         std::cout << snake.growth << std::endl;
+        snake.printSnake();
         frame++;
         window.clear();
         window.draw(grid);
         window.draw(snake);
-        window.draw(snake2);
+        //window.draw(snake2);
         window.display();
     }
 
